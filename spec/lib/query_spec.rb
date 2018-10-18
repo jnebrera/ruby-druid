@@ -139,7 +139,7 @@ describe Druid::Query do
     it 'raises an error when an invalid javascript function is used' do
       expect {
         @query.postagg { js('{ return a_with_b - a; }').as b }
-      }.to raise_error
+      }.to raise_error('Invalid Javascript function')
     end
 
     it 'build a post aggregation with hyperUniqueCardinality' do
@@ -330,7 +330,8 @@ describe Druid::Query do
   end
 
   describe '#first_last_aggregators' do
-    %w[doubleFirst doubleLast longFirst longLast floatFirst floatLast].each do |type|
+    %w[doubleFirst doubleLast longFirst longLast floatFirst floatLast
+       stringFirst stringLast].each do |type|
       it "builds aggregations with '#{type}' type" do
         @query.send(type.underscore, :a, :b)
         expect(JSON.parse(@query.query.to_json)['aggregations']).to eq [

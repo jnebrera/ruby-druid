@@ -393,8 +393,9 @@ module Druid
       end
 
       ### aggregations
-      %i[count long_sum double_sum min max hyper_unique double_first double_last
-         float_first float_last long_first long_last].each do |method_name|
+      %i[count long_sum double_sum min max hyper_unique
+         double_first double_last float_first float_last long_first long_last
+         string_first string_last].each do |method_name|
         define_method method_name do |*metrics|
           metrics.flatten.compact.each do |metric|
             @query.aggregations << Aggregation.new({

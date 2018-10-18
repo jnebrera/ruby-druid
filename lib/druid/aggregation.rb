@@ -7,14 +7,15 @@ module Druid
                                          javascript cardinality hyperUnique
                                          doubleFirst doubleLast longFirst
                                          longLast floatFirst floatLast
-                                         thetaSketch] }
+                                         stringFirst stringLast thetaSketch] }
 
     attr_accessor :name
     validates :name, presence: true
 
     class FieldnameValidator < ActiveModel::EachValidator
       TYPES = %w[count longSum doubleSum min max hyperUnique doubleFirst
-                 doubleLast longFirst longLast floatFirst floatLast].freeze
+                 doubleLast longFirst longLast floatFirst floatLast
+                 stringFirst stringLast].freeze
       def validate_each(record, attribute, value)
         if TYPES.include?(record.type)
           record.errors.add(attribute, 'may not be blank') if value.blank?
